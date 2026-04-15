@@ -11,7 +11,7 @@ def menu():
    print(""" -----Mini Fintual Menu-----   
    1 .- Ver Portafolio
    2 .- Crear Nuevo Fondo  
-   3 .- Simular Inversion (En Desarrollo)
+   3 .- Simular Inversion
    4 .- Salir
          """)
 
@@ -44,11 +44,28 @@ def miportafolio():
   print(f"El Saldo total de su portafolio es de : ${total} \n")
 
 def simular_inversion():
-   nombre = input("Ingrese nombre de fondo a simular: ")
-   for f in misfondos:
-      pass # En Desarrollo
+   if len(misfondos) == 0:
+      print("No existen fondos que simular, porfavor, cree un fondo y vuelva a intentarlo.")
+   nombrefondo = input("Ingrese nombre de fondo a simular: ")
+   for fondo in misfondos:
+      if fondo.nombre.lower() == nombrefondo.lower():
+        try:
+           tasafondo = float(input("Ingrese la tasa de interes a simular: "))
+        except ValueError:
+           print("\nError: La tasa debe ser un número. \n")
+           return
+      tasareal = tasafondo/100
+      try:
+           mesesfondo = int(input("Ingrese los meses a simular: "))
+      except ValueError:
+           print("\nError: Los meses deben ser un numero. \n")
+           return
+      simulacion = fondo.simular(tasareal,mesesfondo)
+      valor = round(simulacion, 2)
+      print(f"\n- Para {mesesfondo} meses se ha simulado que su fondo tendra un valor de: ${valor} \n")
+      return
+   print("\nERROR: Ese fondo no existe, escriba un fondo valido.\n")
       
-
 while True:
    menu()
    opcion = int(input("Ingrese La Opcion Que Desee: " ))
@@ -59,6 +76,7 @@ while True:
    elif opcion == 3:
       simular_inversion()
    elif opcion == 4:
+      print("\n   Finalizando Programa... \n")
       break
    else:
       print("Porfavor, ingrese una opcion valida. \n")
