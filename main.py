@@ -9,6 +9,24 @@ class Fondo:
       resultado = self.saldo*(1+tasa)**meses
       return resultado
 
+def guardardatos():
+      misfondosjson = []
+      for fondo in misfondos:
+         misfondosjson.append(fondo.__dict__)
+      with open ("fondos.json", "w") as archivo:
+         json.dump(misfondosjson, archivo, indent=4)
+
+def cargar_datos():
+   try:
+     with open('fondos.json', 'r', encoding='utf-8') as archivo:
+      datos_cargados = json.load(archivo)
+      misfondos.clear()
+      for dato in datos_cargados:
+         nuevo_fondo = Fondo(dato["nombre"], dato["saldo"])      
+         misfondos.append(nuevo_fondo)
+   except FileNotFoundError:
+      pass
+
 def menu():
    print(""" -----Mini Fintual Menu-----   
    1 .- Ver Portafolio
@@ -18,14 +36,8 @@ def menu():
          """)
 
 misfondos = []
+cargar_datos()
 total = 0
-
-fondovacaciones = Fondo("Vacaciones", 1000)
-fondoahorrocasa = Fondo("AhorroCasa", 20000)
-
-misfondos.append(fondovacaciones)
-misfondos.append(fondoahorrocasa)
-
 
 def crearfondo():
   nombre = input("Ingrese el nombre del fondo: ")
@@ -37,6 +49,7 @@ def crearfondo():
   nuevo_fondo = Fondo(nombre, saldo)
   misfondos.append(nuevo_fondo)
   guardardatos()
+  print("\nFondo creado con exito!\n")
 
 def miportafolio():
   total = 0
@@ -69,24 +82,23 @@ def simular_inversion():
       return
    print("\nERROR: Ese fondo no existe, escriba un fondo valido.\n")
 
-def guardardatos():
-      misfondosjson = []
-      for fondo in misfondos:
-         misfondosjson.append(fondo.__dict__)
-      with open ("fondos.json", "w") as archivo:
-         json.dump(misfondosjson, archivo, indent=4)
-      
 while True:
    menu()
-   opcion = int(input("Ingrese La Opcion Que Desee: " ))
+   try:
+     opcion = int(input("Ingrese La Opcion Que Desee: " ))
+   except ValueError:
+    print("Porfavor, ingrese una opcion valida. \n")
+    continue
+   
    if opcion == 1:
       miportafolio()
    elif opcion == 2:
       crearfondo()
    elif opcion == 3:
-      simular_inversion()
+      simular_inversion() 
    elif opcion == 4:
       print("\n   Finalizando Programa... \n")
       break
    else:
       print("Porfavor, ingrese una opcion valida. \n")
+
