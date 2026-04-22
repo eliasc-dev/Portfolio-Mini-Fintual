@@ -1,0 +1,14 @@
+[
+    {
+        "nombre": "Vacaciones",
+        "saldo": 1000
+    },
+    {
+        "nombre": "AhorroCasa",
+        "saldo": 20000
+    },
+    {
+        "nombre": "Universidad",
+        "saldo": 1000.0
+    }
+]

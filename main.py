@@ -1,3 +1,5 @@
+import json
+
 class Fondo:
    def __init__(self, nombre, saldo):
       self.nombre = nombre
@@ -34,6 +36,7 @@ def crearfondo():
      return
   nuevo_fondo = Fondo(nombre, saldo)
   misfondos.append(nuevo_fondo)
+  guardardatos()
 
 def miportafolio():
   total = 0
@@ -65,6 +68,13 @@ def simular_inversion():
       print(f"\n- Para {mesesfondo} meses se ha simulado que su fondo tendra un valor de: ${valor} \n")
       return
    print("\nERROR: Ese fondo no existe, escriba un fondo valido.\n")
+
+def guardardatos():
+      misfondosjson = []
+      for fondo in misfondos:
+         misfondosjson.append(fondo.__dict__)
+      with open ("fondos.json", "w") as archivo:
+         json.dump(misfondosjson, archivo, indent=4)
       
 while True:
    menu()
