@@ -59,7 +59,21 @@ def simular_inversion():
    print("\nERROR: Ese fondo no existe, escriba un fondo valido.\n")
 
 def eliminar_fondo():
-   pass
+   if len(misfondos) == 0:
+         print("\nPara eliminar un fondo debe crear uno primero.\n")
+         return
+   fondoeliminar = input("Ingrese el nombre del fondo a Eliminar: ")
+   encontrado = False
+   for fondo in misfondos:
+      if fondo.nombre.lower() == fondoeliminar.lower():
+            misfondos.remove(fondo)
+            guardardatos(misfondos)
+            encontrado = True
+            print("\nFondo eliminado con exito.\n")
+            break
+   if not encontrado:
+      print("\nERROR: No existe un fondo con ese nombre.\n")
+   
 
 while True:
    menu()
@@ -76,8 +90,7 @@ while True:
    elif opcion == 3:
       simular_inversion() 
    elif opcion == 4:
-      pass 
-      #eliminar_fondo()
+      eliminar_fondo()
    elif opcion == 5:
       print("\n   Finalizando Programa... \n")
       break
