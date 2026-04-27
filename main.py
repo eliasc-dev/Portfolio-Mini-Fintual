@@ -1,42 +1,18 @@
 import json
-
-class Fondo:
-   def __init__(self, nombre, saldo):
-      self.nombre = nombre
-      self.saldo = saldo
-
-   def simular(self, tasa, meses):
-      resultado = self.saldo*(1+tasa)**meses
-      return resultado
-
-def guardardatos():
-      misfondosjson = []
-      for fondo in misfondos:
-         misfondosjson.append(fondo.__dict__)
-      with open ("fondos.json", "w") as archivo:
-         json.dump(misfondosjson, archivo, indent=4)
-
-def cargar_datos():
-   try:
-     with open('fondos.json', 'r', encoding='utf-8') as archivo:
-      datos_cargados = json.load(archivo)
-      misfondos.clear()
-      for dato in datos_cargados:
-         nuevo_fondo = Fondo(dato["nombre"], dato["saldo"])      
-         misfondos.append(nuevo_fondo)
-   except FileNotFoundError:
-      pass
+from models import Fondo
+from database import cargar_datos, guardardatos
 
 def menu():
    print(""" -----Mini Fintual Menu-----   
    1 .- Ver Portafolio
    2 .- Crear Nuevo Fondo  
    3 .- Simular Inversion
-   4 .- Salir
+   4 .- Eliminar Fondo
+   5 .- Salir
          """)
 
 misfondos = []
-cargar_datos()
+cargar_datos(misfondos)
 total = 0
 
 def crearfondo():
@@ -48,7 +24,7 @@ def crearfondo():
      return
   nuevo_fondo = Fondo(nombre, saldo)
   misfondos.append(nuevo_fondo)
-  guardardatos()
+  guardardatos(misfondos)
   print("\nFondo creado con exito!\n")
 
 def miportafolio():
@@ -82,6 +58,9 @@ def simular_inversion():
       return
    print("\nERROR: Ese fondo no existe, escriba un fondo valido.\n")
 
+def eliminar_fondo():
+   pass
+
 while True:
    menu()
    try:
@@ -97,6 +76,9 @@ while True:
    elif opcion == 3:
       simular_inversion() 
    elif opcion == 4:
+      pass 
+      #eliminar_fondo()
+   elif opcion == 5:
       print("\n   Finalizando Programa... \n")
       break
    else:
